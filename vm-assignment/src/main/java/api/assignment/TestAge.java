@@ -108,7 +108,7 @@ public class TestAge {
 		//	System.out.println(line);
 			if(ls.length==3) {	
 				obj = new Person(ls[0],Integer.parseInt(ls[1]),Integer.parseInt(ls[2]));
-				persons.add(obj);
+				
 			} else if (ls.length==2){
 				obj = new Person(ls[0],Integer.parseInt(ls[1]),0);
 
@@ -117,7 +117,7 @@ public class TestAge {
 				obj = new Person(ls[0],0,0);
 			}
 
-
+persons.add(obj);
 
 		}
 		Collections.sort(persons,cmp);
