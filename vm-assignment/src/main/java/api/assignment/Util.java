@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,25 +18,9 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class TestName {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Path fullPath = new File("./", "commands.txt").toPath();
-		List<File> files;
-		try {
-			files = splitAndSortTempFiles(fullPath.toAbsolutePath().toString(), "C:/temp", 4,
-					new StringComparator());
-			mergeSortedFiles(files, "./LargeFile.txt", new StringComparator());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
+public class Util {
 	public static List<File> splitAndSortTempFiles(final String fileName, final String tempDirectory,
-			final int noOfSplits, final StringComparator cmp) throws IOException {
+			final int noOfSplits, final AgeComparator cmp) throws IOException {
 		List<File> files = new ArrayList<>();
 		RandomAccessFile raf = new RandomAccessFile(fileName, "r");
 		long sourceSize = raf.length();
@@ -92,7 +75,7 @@ public class TestName {
 	 * Sort file content
 
 	 */
-	private static File sortFileContent(File file, StringComparator cmp) throws IOException {
+	private static File sortFileContent(File file, AgeComparator cmp) throws IOException {
 		List<String> lines = new ArrayList<>();
 		List<Person> persons = new ArrayList<>();
 
@@ -108,7 +91,7 @@ public class TestName {
 		//	System.out.println(line);
 			if(ls.length==3) {	
 				obj = new Person(ls[0],Integer.parseInt(ls[1]),Integer.parseInt(ls[2]));
-			
+				
 			} else if (ls.length==2){
 				obj = new Person(ls[0],Integer.parseInt(ls[1]),0);
 
@@ -117,8 +100,8 @@ public class TestName {
 				obj = new Person(ls[0],0,0);
 			}
 
-			persons.add(obj);
 
+			persons.add(obj);
 		}
 		Collections.sort(persons,cmp);
 		try (BufferedWriter bw = Files.newBufferedWriter(file.toPath())) {
@@ -134,7 +117,7 @@ public class TestName {
 		return file;
 	}
 
-	public static void mergeSortedFiles(final List<File> files, final String outputFile, final StringComparator cmp)
+	public static void mergeSortedFiles(final List<File> files, final String outputFile, final AgeComparator cmp)
 			throws IOException {
 		List<BufferedReader> brReaders = new ArrayList<>();
 		TreeMap<String, BufferedReader> map = new TreeMap();
@@ -190,5 +173,4 @@ public class TestName {
 			}
 		}
 	}
-
 }
